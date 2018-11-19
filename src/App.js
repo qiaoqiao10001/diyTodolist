@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from 'react'
+import {connect} from 'react-redux'
+import * as actionCreators  from './store/actionCreators'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+class App extends Component{
+    render(){
+        const {input_value,changeInputValue} = this.props
+        console.log(this.props);
+        return (
+            <div>
+                <div>
+                    <input type="text" value={input_value} onChange={changeInputValue}/>
+                    <button>提交</button>
+                </div>
+                <ul>
+                    <li>reactnative</li>
+                </ul>
+            </div>)
+    }
 }
 
-export default App;
+const mapState = (state) => ({
+    input_value:state.input_value
+})
+
+const mapDispatch = (dispatch) => {
+    return{
+        changeInputValue(e) {
+            const action = actionCreators.changeInputValue(e.target.value);
+            dispatch(action);
+        }
+    }
+}
+
+export default connect(mapState,mapDispatch)(App)
