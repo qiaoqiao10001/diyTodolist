@@ -4,23 +4,28 @@ import * as actionCreators  from './store/actionCreators'
 
 class App extends Component{
     render(){
-        const {input_value,changeInputValue} = this.props
+        const {input_value,changeInputValue,submitValue,list} = this.props
         console.log(this.props);
         return (
             <div>
                 <div>
                     <input type="text" value={input_value} onChange={changeInputValue}/>
-                    <button>提交</button>
+                    <button onClick={submitValue}>提交</button>
                 </div>
                 <ul>
-                    <li>reactnative</li>
+                    {
+                        list.map((item,idx) => {
+                            return (<li key={idx}>{item}</li>)
+                        })
+                    }
                 </ul>
             </div>)
     }
 }
 
 const mapState = (state) => ({
-    input_value:state.input_value
+    input_value:state.input_value,
+    list:state.list
 })
 
 const mapDispatch = (dispatch) => {
@@ -28,6 +33,11 @@ const mapDispatch = (dispatch) => {
         changeInputValue(e) {
             const action = actionCreators.changeInputValue(e.target.value);
             dispatch(action);
+        },
+        submitValue(){
+
+            const action = actionCreators.handleValue();
+            dispatch(action)
         }
     }
 }
